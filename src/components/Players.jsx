@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Player from './Player'
 
 
-export default function Players({ players, onEditPlayer }) {
+export default function Players({ players }) {
 
     return (
         <div id="game-container">
@@ -13,7 +13,6 @@ export default function Players({ players, onEditPlayer }) {
                             key={player.name}
                             player={player}
                             index={index} // good
-                            onEditPlayer={onEditPlayer}
                         />
                     })
                 }
