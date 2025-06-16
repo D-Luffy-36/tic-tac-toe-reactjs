@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
 
-export default function Player({ index, player }) {
+export default function Player({ initialPlayer }) {
     const [isEdit, setIsEdit] = useState(false);
-    const [enteredName, setEnteredName] = useState(player.name);
+    const [enteredName, setEnteredName] = useState(initialPlayer.name);
 
     const handleEditPlayer = () => {
         // khi click thì đổi nút thành save
@@ -35,11 +35,10 @@ export default function Player({ index, player }) {
                             maxLength={30}
                             autoFocus
                         />
-
                         : <span className="player-name">{enteredName}</span>
                 }
 
-                <span className="player-symbol">{player.symbol}</span>
+                <span className="player-symbol">{initialPlayer.symbol}</span>
             </span>
             <button className="" onClick={handleEditPlayer}>{isEdit ? "Save" : "Edit"}</button>
         </li>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Player from './Player'
+import GameBoard from './GameBoard';
 
 
 export default function Players({ players }) {
@@ -11,13 +12,13 @@ export default function Players({ players }) {
                     players.map((player, index) => {
                         return <Player
                             key={player.name}
-                            player={player}
-                            index={index} // good
+                            initialPlayer={player}
                         />
                     })
                 }
             </ol>
-            GAME BOARD
+
+            <GameBoard />
         </div>
     );
 }

@@ -11,18 +11,6 @@ function App() {
   ]);
 
 
-  // const handleEditPlayer = (index, newName) => {
-  //   console.log(`click ${players[index].name} newName: ${newName}`);
-
-  //   setPlayers((prev) => {
-  //     const updatedPlayers = [...prev]; // ✅ clone mảng cũ từ prev
-  //     updatedPlayers[index] = {         // ✅ update đúng object cần đổi
-  //       ...updatedPlayers[index],       // ✅ giữ symbol
-  //       name: newName                   // ✅ đổi name
-  //     };
-  //     return updatedPlayers;            // ✅ trả mảng mới về state
-  //   });
-  // };
 
   return (
     <main>
