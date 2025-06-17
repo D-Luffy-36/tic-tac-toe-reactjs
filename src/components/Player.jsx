@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 
-export default function Player({ initialPlayer }) {
+export default function Player({ initialPlayer, isActive }) {
     const [isEdit, setIsEdit] = useState(false);
     const [enteredName, setEnteredName] = useState(initialPlayer.name);
 
@@ -22,8 +22,8 @@ export default function Player({ initialPlayer }) {
     }
 
     return (
-        <li>
-            <span className="player">
+        <li className={`${isActive ? 'active' : ''}`}>
+            <span className={`player`}>
                 {
                     isEdit
                         ? <input
