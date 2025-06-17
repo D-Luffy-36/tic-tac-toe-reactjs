@@ -15,7 +15,6 @@ function App() {
   return (
     <main>
       <Players players={players} />
-      LOG
     </main>
   )
 }
