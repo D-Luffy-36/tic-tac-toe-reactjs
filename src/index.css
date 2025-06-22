@@ -383,3 +383,9 @@ ol {
     transform: scale(1);
   }
 }
+
+
+.result {
+  display: flex;
+  justify-content: center;
+}

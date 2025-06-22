@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Player from './Player';
 import GameBoard from './GameBoard';
 import Log from './Log';
@@ -14,24 +14,34 @@ export default function Players({ players }) {
         // { square: [1, 2], player: 'O' },  // lượt 2: O chọn ô hàng 1, cột 2
         // { square: [2, 1], player: 'X' },  // lượt 3: X chọn ô hàng 2, cột 1
     ]); // mảng các lượt đi người chơi đã thực hiện
-    const [isXTurn, setIsXTurn] = useState(true);     // dấu hiệu lượt X hay O
+    const [winner, setWinner] = useState(null);
+
+    function deriveActivePlayer(turns) {
+        if (turns.length === 0) return 'X'; // X luôn đi trước
+        const lastPlayer = turns[turns.length - 1].player;
+        return lastPlayer === 'X' ? 'O' : 'X';
+    }
+
+    const activePlayer = deriveActivePlayer(gameTurns);
+    const isXTurn = activePlayer === 'X';
 
     // =====================
     // 1) DERIVE gameBoard từ gameTurns
     // =====================
-    const deriveBoard = () => {
-
+    // Derive gameBoard từ gameTurns với useMemo
+    // ==== 1) DERIVE gameBoard từ gameTurns ở đây ====
+    const gameBoard = useMemo(() => {
         const board = Array.from({ length: SIZE }, () =>
             Array.from({ length: SIZE }, () => null)
         );
-
-        for (const { square: [r, c], player } of gameTurns) {
-            board[r][c] = player; // Đặt X hoặc O theo lượt đã đi
+        for (const turn of gameTurns) {
+            const { square, player } = turn;
+            const [r, c] = square;
+            board[r][c] = player;
         }
-
         return board;
-    }
-    const gameBoard = deriveBoard();
+    }, [gameTurns]);;
+
 
     // =====================
     // 2) isBoardFull: kiểm tra hết ô còn null hay chưa
@@ -86,8 +96,7 @@ export default function Players({ players }) {
             if (allMatch) return firstCell;
         }
 
-
-        // duyệt chéo 
+        // duyệt chéo phụ
         let cell = gameBoard2d[0][size - 1];
         if (cell) {
             let allMatch = true;
@@ -99,24 +108,26 @@ export default function Players({ players }) {
             }
             if (allMatch) return cell
         }
+        // hòa
+        return null;
     }
 
+    // bug
     useEffect(() => {
         const timer = setTimeout(() => {
-            if (isBoardFull()) {
-                alert('Hòa! Bàn đã đầy.');
-                resetGame();
+            const result = checkWinner(gameBoard);
+            if (result) {
+                setWinner(result); // Cập nhật winner
                 return;
             }
 
-            const winner = checkWinner(gameBoard);
-            if (winner) {
-                alert(`Người thắng: ${winner}`);
-                resetGame();
+            if (isBoardFull() && !result) {
+                setWinner('draw'); // Hòa
+                return;
             }
-        }, 100); // delay 100ms để React vẽ xong bàn cờ
+        }, 100);
 
-        return () => clearTimeout(timer); // cleanup khi component unmount hoặc rerender
+        return () => clearTimeout(timer);
     }, [gameTurns]);
 
 
@@ -139,16 +150,12 @@ export default function Players({ players }) {
         switchPlayer();
     }
 
-    const switchPlayer = () => {
-        setIsXTurn(pre => !pre);
-    }
-
     // =====================
     // 6) Reset lại trò chơi
     // =====================
     function resetGame() {
         setGameTurns([]);
-        setIsXTurn(true);
+        setWinner(null);
     }
 
 
@@ -161,15 +168,23 @@ export default function Players({ players }) {
                             return <Player
                                 key={player.name}
                                 initialPlayer={player}
-                                isActive={index === (isXTurn ? 0 : 1)}
+                                isActive={isXTurn === (player.symbol === 'X')}
                             />
                         })
                     }
                 </ol>
-                <GameBoard gameTurns={gameTurns} onSelectSquare={handleSelectSquare} />
+                <GameBoard gameBoard={gameBoard} onSelectSquare={handleSelectSquare} />
             </div>
 
             <Log gameTurns={gameTurns} />
+
+
+            {winner && (
+                <div className="result">
+                    {winner === 'draw' ? 'Hòa! Bàn đã đầy.' : `Người thắng: ${winner}`}
+                    <button onClick={resetGame}>Chơi lại</button>
+                </div>
+            )}
         </>
 
     );

@@ -7,17 +7,7 @@ const initialGameBoard = [
     [null, null, null]
 ];
 
-export default function GameBoard({ onSelectSquare, gameTurns }) {
-
-    let gameBoard = initialGameBoard;
-    for (let turn of gameTurns) {
-        // { square: [0, 0], player: 'X' }, 
-        let [x, y] = turn.square;
-        // gán lại giá trị cho mảng
-        gameBoard[x][y] = turn.player;
-    }
-
-
+export default function GameBoard({ gameBoard, onSelectSquare, }) {
     return (
         <div>
             {gameBoard.map((row, rowIndex) => {
