@@ -16,7 +16,7 @@ export default function Players({ players }) {
     ]); // mảng các lượt đi người chơi đã thực hiện
 
     const [winner, setWinner] = useState(null);
-    const hasDraw = !winner && gameTurns.length === 9;
+    // const hasDraw = !winner && gameTurns.length === SIZE * SIZE;
 
 
     function deriveActivePlayer(turns) {
@@ -122,11 +122,6 @@ export default function Players({ players }) {
             const result = checkWinner(gameBoard);
             if (result) {
                 setWinner(result); // Cập nhật winner
-                return;
-            }
-
-            if (isBoardFull() && !result) {
-                setWinner('draw'); // Hòa
                 return;
             }
         }, 100);
