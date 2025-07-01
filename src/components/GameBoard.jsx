@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './GameBoard.css'
 
-const initialGameBoard = [
-    [null, null, null],
-    [null, null, null],
-    [null, null, null]
-];
 
 export default function GameBoard({ gameBoard, onSelectSquare, }) {
     return (
