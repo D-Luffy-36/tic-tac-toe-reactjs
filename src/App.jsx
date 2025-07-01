@@ -5,15 +5,11 @@ import Players from "./components/Players"
 
 function App() {
 
-  const [players, setPlayers] = useState([
-    { name: 'player 1', symbol: 'X' },
-    { name: 'player 2', symbol: 'O' },
-  ]);
 
 
   return (
     <main>
-      <Players players={players} />
+      <Players />
     </main>
   )
 }

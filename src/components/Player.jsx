@@ -1,23 +1,17 @@
 import React, { useState } from 'react';
 
-export default function Player({ initialPlayer, isActive }) {
+export default function Player({ initialPlayer, isActive, onChange }) {
     const [isEdit, setIsEdit] = useState(false);
-    const [enteredName, setEnteredName] = useState(initialPlayer.name);
+    const [draftName, setDraftName] = useState(initialPlayer.name);
 
     const handleEditPlayer = () => {
         // khi click thì đổi nút thành save
-        setIsEdit((pre) => {
-            const newState = !pre;
-            console.log('New State:', newState);
-            return newState;
-        });
-
-        // khi click vào nút save sẽ thông báo cho fuction của App thay đổi 
-        // isEdit = true => nút Save
         if (isEdit) {
-            // hàm này là hàm ở App component
-
+            // Nếu đang ở chế độ edit thì bấm là Save
+            onChange(draftName);
         }
+
+        setIsEdit(prev => !prev);
     }
 
     return (
@@ -28,13 +22,13 @@ export default function Player({ initialPlayer, isActive }) {
                         ? <input
                             type="text"
                             className="player-name"
-                            value={enteredName}
-                            onChange={(e) => setEnteredName(e.target.value)}
+                            value={draftName}
+                            onChange={(e) => setDraftName(e.target.value)}
                             required
                             maxLength={30}
                             autoFocus
                         />
-                        : <span className="player-name">{enteredName}</span>
+                        : <span className="player-name">{draftName}</span>
                 }
 
                 <span className="player-symbol">{initialPlayer.symbol}</span>

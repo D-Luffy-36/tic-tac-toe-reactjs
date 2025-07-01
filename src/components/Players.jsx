@@ -5,7 +5,24 @@ import GameOver from './GameOver';
 import Log from './Log';
 
 
-export default function Players({ players }) {
+export default function Players() {
+
+    const [players, setPlayers] = useState([
+        { name: 'player 1', symbol: 'X' },
+        { name: 'player 2', symbol: 'O' },
+    ]);
+
+    const handlePlayerNameChange = (symbol, newName) => {
+        setPlayers((prevPlayers) =>
+            prevPlayers.map((el) => {
+                if (el.symbol === symbol) {
+                    return { ...el, name: newName }; // ✅ clone đúng
+                }
+                return el;
+            })
+        );
+    };
+
 
     const SIZE = 3;
     // 1 nguồn dữ liệu: mảng lịch sử lượt đi
@@ -16,7 +33,7 @@ export default function Players({ players }) {
     ]); // mảng các lượt đi người chơi đã thực hiện
 
     const [winner, setWinner] = useState(null);
-    // const hasDraw = !winner && gameTurns.length === SIZE * SIZE;
+    const hasDraw = !winner && gameTurns.length === SIZE * SIZE;
 
 
     function deriveActivePlayer(turns) {
@@ -121,8 +138,10 @@ export default function Players({ players }) {
         const timer = setTimeout(() => {
             const result = checkWinner(gameBoard);
             if (result) {
-                setWinner(result); // Cập nhật winner
-                return;
+                const winnerPlayer = players.find(player => player.symbol === result);
+                // Lấy tên người thắng (nếu tìm thấy)
+                const playerName = winnerPlayer ? winnerPlayer.name : null;
+                setWinner(playerName);
             }
         }, 100);
 
@@ -162,9 +181,12 @@ export default function Players({ players }) {
                     {
                         players.map((player, index) => {
                             return <Player
-                                key={player.name}
+                                key={player.symbol}
                                 initialPlayer={player}
-                                isActive={isXTurn === (player.symbol === 'X')}
+                                onChange={(newName) => {
+                                    return handlePlayerNameChange(player.symbol, newName)
+                                }}
+                                isActive={activePlayer === player.symbol}
                             />
                         })
                     }
