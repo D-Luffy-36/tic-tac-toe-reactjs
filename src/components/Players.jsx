@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Player from './Player';
 import GameBoard from './GameBoard';
+import GameOver from './GameOver';
 import Log from './Log';
-
 
 
 export default function Players({ players }) {
@@ -14,7 +14,10 @@ export default function Players({ players }) {
         // { square: [1, 2], player: 'O' },  // lượt 2: O chọn ô hàng 1, cột 2
         // { square: [2, 1], player: 'X' },  // lượt 3: X chọn ô hàng 2, cột 1
     ]); // mảng các lượt đi người chơi đã thực hiện
+
     const [winner, setWinner] = useState(null);
+    const hasDraw = !winner && gameTurns.length === 9;
+
 
     function deriveActivePlayer(turns) {
         if (turns.length === 0) return 'X'; // X luôn đi trước
@@ -23,6 +26,7 @@ export default function Players({ players }) {
     }
 
     const activePlayer = deriveActivePlayer(gameTurns);
+
     const isXTurn = activePlayer === 'X';
 
     // =====================
@@ -145,9 +149,6 @@ export default function Players({ players }) {
 
         // 3) Thêm lượt đi mới vào mảng
         setGameTurns(pre => [...pre, { square: [row, col], player: player }]);
-
-        // chuyển lượt chơi
-        switchPlayer();
     }
 
     // =====================
@@ -178,12 +179,8 @@ export default function Players({ players }) {
 
             <Log gameTurns={gameTurns} />
 
-
-            {winner && (
-                <div className="result">
-                    {winner === 'draw' ? 'Hòa! Bàn đã đầy.' : `Người thắng: ${winner}`}
-                    <button onClick={resetGame}>Chơi lại</button>
-                </div>
+            {(winner || hasDraw) && (
+                <GameOver winner={winner} onRestart={resetGame} />
             )}
         </>
 

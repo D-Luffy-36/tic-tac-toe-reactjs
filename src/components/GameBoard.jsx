@@ -15,7 +15,10 @@ export default function GameBoard({ gameBoard, onSelectSquare, }) {
                     <div key={rowIndex} className='board-row'>
                         {row.map((col, colIndex) => {
                             return (
-                                <button key={`${rowIndex}-${colIndex}`} className="board-cell" onClick={() => onSelectSquare(rowIndex, colIndex)}>
+                                <button key={`${rowIndex}-${colIndex}`} className="board-cell"
+                                    onClick={() => onSelectSquare(rowIndex, colIndex)}
+                                    disabled={gameBoard[rowIndex][colIndex]}
+                                >
                                     {col}
                                 </button>
                             );

@@ -184,7 +184,7 @@ ol {
   border: 2px solid #333;
 }
 
-/* #game-board {
+#game-board {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -192,18 +192,18 @@ ol {
   margin: 3rem 0;
   padding: 0;
   flex-direction: column;
-} */
+}
 
-/* #game-board ol {
+#game-board ol {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 2rem;
   margin: 0;
   padding: 0;
-} */
+}
 
-/* #game-board button {
+#game-board button {
   width: 8rem;
   height: 8rem;
   border: none;
@@ -213,7 +213,7 @@ ol {
   cursor: pointer;
   font-family: 'Caprasimo', cursive;
   padding: 1rem;
-} */
+}
 
 #game-over {
   position: absolute;

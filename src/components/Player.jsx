@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-
 export default function Player({ initialPlayer, isActive }) {
     const [isEdit, setIsEdit] = useState(false);
     const [enteredName, setEnteredName] = useState(initialPlayer.name);

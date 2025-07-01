@@ -11,7 +11,6 @@ function App() {
   ]);
 
 
-  const [isPlayerXTurn, setIsPlayerXTurn] = useState(true);
   return (
     <main>
       <Players players={players} />
